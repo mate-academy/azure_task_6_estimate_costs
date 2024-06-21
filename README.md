@@ -41,7 +41,7 @@ In this task, you need to work with the infrastructure from the [previous tasks]
 
     - Virtual Machine (don't forget to include it's OS disk as a part of the VM calculations)
 
-    - Data disk 
+    - Data disk
 
     - Public IP address
 
@@ -49,7 +49,7 @@ In this task, you need to work with the infrastructure from the [previous tasks]
 
 3. Run artifacts generation script `scripts/generate-artifacts.ps1`. 
 
-4. Test yourself using the script `scripts/validate-artifacts.ps1`. 
+4. Test yourself using the script `scripts/validate-artifacts.ps1`.
 
 4. Submit the solution for a review.
 
