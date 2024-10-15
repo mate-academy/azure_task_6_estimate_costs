@@ -47,9 +47,9 @@ In this task, you need to work with the infrastructure from the [previous tasks]
 
 2. Export the calculations as an Excel spreadsheet and copy it to the repo folder.
 
-3. Run artifacts generation script `scripts/generate-artifacts.ps1`. 
+3. Run artifacts generation script `scripts/generate-artifacts.ps1`.
 
-4. Test yourself using the script `scripts/validate-artifacts.ps1`. 
+4. Test yourself using the script `scripts/validate-artifacts.ps1`.
 
 4. Submit the solution for a review.
 
