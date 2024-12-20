@@ -4,12 +4,13 @@ param(
 )
 
 # default script values
-$taskName = "task6"
+$rgName = "mate-azure-task-2"
+$taskName = "task4"
 
 $containerName = "task-artifacts"
+$resourcesTemplateName = "exported-template.json"
+$tempFolderPath = "$PWD/temp"
 $artifactsConfigPath = "$PWD/artifacts.json"
-
-$spreadsheetName = "ExportedEstimate.xlsx"
 
 # initial validation
 Write-Output "Running initial validation"
@@ -38,34 +39,37 @@ if ($artifactContainer) {
 }
 
 # generation of artifacts
-Write-Output "Generating artifacts..."
+Write-Output "Generating artifacts"
 
-if (Test-Path -Path "$PWD/$spreadsheetName" -ErrorAction SilentlyContinue) { 
-    Write-Output "Pricing calculations found - OK"
-} else { 
-    throw "Unable to find exported pricing calculations file ($spreadsheetName). Please make sure that you copied the file to the repository folder."
+Write-Output "Checking if temp folder exists"
+if (-not (Test-Path "$tempFolderPath")) { 
+    Write-Output "Temp folder does not exist, creating..."
+    New-Item -ItemType Directory -Path $tempFolderPath
 }
 
-Write-Output "Uploading spreadsheet"
+Write-Output "Exporting resources template"
+Export-AzResourceGroup -ResourceGroupName $rgName -Path "$tempFolderPath/$resourcesTemplateName" -Force
+
+Write-Output "Uploading resources template"
 $ResourcesTemplateBlob = @{
-    File             = "$PWD/$spreadsheetName"
+    File             = "$tempFolderPath/$resourcesTemplateName"
     Container        = $containerName
-    Blob             = "$taskName/$spreadsheetName"
+    Blob             = "$taskName/$resourcesTemplateName"
     Context          = $storageAccount.Context
     StandardBlobTier = 'Hot'
 }
 $blob = Set-AzStorageBlobContent @ResourcesTemplateBlob -Force
 
-Write-Output "Generating a SAS token for the artifact"
+Write-Output "Generating a SAS token for the template artifact"
 $date = Get-Date
 $date = $date.AddDays(30) 
-$resourcesTemplateSaSToken = New-AzStorageBlobSASToken -Container $containerName -Blob "$taskName/$spreadsheetName" -Permission r -ExpiryTime $date -Context $storageAccount.Context
-$pricingCalculationsURL = "$($blob.ICloudBlob.uri.AbsoluteUri)?$resourcesTemplateSaSToken"
+$resourcesTemplateSaSToken = New-AzStorageBlobSASToken -Container $containerName -Blob "$taskName/$resourcesTemplateName" -Permission r -ExpiryTime $date -Context $storageAccount.Context
+$resourcesTemplateURL = "$($blob.ICloudBlob.uri.AbsoluteUri)?$resourcesTemplateSaSToken"
 
 
 # updating artifacts config
 Write-Output "Updating artifacts config"
 $artifactsConfig = @{
-    pricingCalculationsURL = "$pricingCalculationsURL"
+    resourcesTemplate = "$resourcesTemplateURL"
 }
 $artifactsConfig | ConvertTo-Json | Out-File -FilePath $artifactsConfigPath -Force
