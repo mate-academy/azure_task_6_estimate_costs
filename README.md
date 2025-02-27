@@ -1,6 +1,6 @@
 # Estimate Сosts for Сloud Infrastructure
 
-Wow! Now you know how it feels to run a successful startup! Your todo app user base is growing, and potential investors are becoming interested in your project. Before investing money, potential investors want to know how much it costs to run the cloud infrastructure for your application. 
+Wow! Now you know how it feels to run a successful startup! Your todo app user base is growing, and potential investors are becoming interested in your project. Before investing money, potential investors want to know how much it costs to run the cloud infrastructure for your application.
 
 In this task, you will need to calculate the costs.
 
