@@ -1,0 +1,12 @@
+PS D:\Programming\mate-academy\azure\azure_task_6_estimate_costs> scripts/validate-artifacts.ps1
+Reading config
+Checking if temp folder exists
+Downloading artifacts
+Installing pre-requirements
+WARNING: The version '7.8.10' of module 'ImportExcel' is currently in use. Retry the operation after closing the applications.
+Validating artifacts
+✅ Checked calculations for the Virtual Machine - OK.
+✅ Checked calculations for the data disk (mannaged disk) - OK.
+✅ Checked calculations for the Public IP address - OK.
+
+🥳 Congratulations! All tests passed!
