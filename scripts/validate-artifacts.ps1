@@ -13,27 +13,27 @@ $tempFolderPath = "$PWD/temp"
 $worksheetName = "Your Estimate"
 $spreadsheetName = "ExportedEstimate.xlsx"
 
-if ($DownloadArtifacts) { 
-    Write-Output "Reading config" 
-    $artifactsConfig = Get-Content -Path $artifactsConfigPath | ConvertFrom-Json 
+if ($DownloadArtifacts) {
+    Write-Output "Reading config"
+    $artifactsConfig = Get-Content -Path $artifactsConfigPath | ConvertFrom-Json
 
     Write-Output "Checking if temp folder exists"
-    if (-not (Test-Path "$tempFolderPath")) { 
+    if (-not (Test-Path "$tempFolderPath")) {
         Write-Output "Temp folder does not exist, creating..."
         New-Item -ItemType Directory -Path $tempFolderPath
     }
 
     Write-Output "Downloading artifacts"
 
-    if (-not $artifactsConfig.pricingCalculationsURL) { 
+    if (-not $artifactsConfig.pricingCalculationsURL) {
         throw "Artifact config value 'pricingCalculationsURL' is empty! Please make sure that you executed the script 'scripts/generate-artifacts.ps1', and commited your changes"
-    } 
+    }
     Invoke-WebRequest -Uri $artifactsConfig.pricingCalculationsURL -OutFile "$tempFolderPath/$spreadsheetName" -UseBasicParsing
 
 }
 
 Write-Output "Installing pre-requirements"
-Install-Module ImportExcel -Force 
+Install-Module ImportExcel -Force
 # Import-Module -Name ImportExcel
 
 
@@ -42,11 +42,11 @@ Write-Output "Validating artifacts"
 $data = Import-Excel -StartRow 3 -Path "$tempFolderPath/$spreadsheetName" -WorksheetName $worksheetName
 
 $computeEstimate = $data | Where-Object {$_.'Service Category' -eq 'Compute'}
-if ($computeEstimate) { 
-    if ($computeEstimate.'Service Category'.Count -eq 1) { 
-        if ($computeEstimate.'Region' -ne 'UK West') { 
+if ($computeEstimate) {
+    if ($computeEstimate.'Service Category'.Count -eq 1) {
+        if ($computeEstimate.'Region' -ne 'UK West') {
             throw "Unable to verify the VM region - please make sure it set to UK West and try again."
-        } 
+        }
 
         if (-not $computeEstimate.Description.Contains("B1s")) { 
             throw "Unable to verify VM size in calulations - please make sure that VM size is set to B1s in the calculations and try again. "
