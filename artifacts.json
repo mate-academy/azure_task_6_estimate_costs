@@ -1,3 +1,7 @@
 {
-  "pricingCalculationsURL": ""
+<<<<<<< HEAD
+  "pricingCalculationsURL": "https://mateset.blob.core.windows.net/task-artifacts/task6/ExportedEstimate.xlsx?sv=2025-07-05&se=2026-06-21T21%3A55%3A22Z&sr=b&sp=r&sig=8Z5gPe7EZZRC7K%2BliryuuoQes78f4mwebt7M1B6wAlA%3D"
+=======
+  "pricingCalculationsURL": "https://matestorage8342.blob.core.windows.net/task-artifacts/task6/ExportedEstimate.xlsx?sv=2025-07-05\u0026se=2026-06-19T07%3A31%3A28Z\u0026sr=b\u0026sp=r\u0026sig=i%2FO0OkPsG4OVJ%2FjJwBnzcX1%2Bq%2F6eEwvM4k38tFIY2iw%3D"
+>>>>>>> 6a75329f5287c012ca594e0f96bdf4a2346c73c1
 }
