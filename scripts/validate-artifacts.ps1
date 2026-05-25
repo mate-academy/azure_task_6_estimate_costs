@@ -44,8 +44,8 @@ $data = Import-Excel -StartRow 3 -Path "$tempFolderPath/$spreadsheetName" -Works
 $computeEstimate = $data | Where-Object {$_.'Service Category' -eq 'Compute'}
 if ($computeEstimate) { 
     if ($computeEstimate.'Service Category'.Count -eq 1) { 
-        if ($computeEstimate.'Region' -ne 'UK West') { 
-            throw "Unable to verify the VM region - please make sure it set to UK West and try again."
+        if ($computeEstimate.'Region' -ne 'West US 2') { 
+            throw "Unable to verify the VM region - please make sure it set to West US 2 and try again."
         } 
 
         if (-not $computeEstimate.Description.Contains("B1s")) { 
@@ -56,7 +56,7 @@ if ($computeEstimate) {
             throw "Unable to verify VM OS type in calulations - please make sure that VM OS tyoe is set to Linux in the calculations and try again. "
         } 
 
-        if (-not $computeEstimate.Description.Contains("1 managed disk – P4")) { 
+        if (-not $computeEstimate.Description.Contains("1 managed disk – P6")) { 
             throw "Unable to verify that you included OS disk to the calulations - please check and try again. "
         } 
         
@@ -73,8 +73,8 @@ if ($computeEstimate) {
 $storageEstimate = $data | Where-Object {$_.'Service Category' -eq 'Storage'}
 if ($storageEstimate) { 
     if ($storageEstimate.'Service Category'.Count -eq 1) { 
-        if ($storageEstimate.'Region' -ne 'UK West') { 
-            throw "Unable to verify the VM region - please make sure it set to UK West and try again."
+        if ($storageEstimate.'Region' -ne 'West US 2') { 
+            throw "Unable to verify the VM region - please make sure it set to West US 2 and try again."
         } 
 
         if (-not $storageEstimate.Description.Contains("Managed Disks, Premium SSD, LRS Redundancy")) { 
@@ -103,8 +103,8 @@ if ($networkingEstimate) {
             throw "Unable to verify Public IP resource - please make sure that you added it to the calculations and try again."
         }
         
-        if ($networkingEstimate.'Region' -ne 'UK West') { 
-            throw "Unable to verify the Public IP region - please make sure it set to UK West and try again."
+        if ($networkingEstimate.'Region' -ne 'West US 2') { 
+            throw "Unable to verify the Public IP region - please make sure it set to West US 2 and try again."
         } 
 
         Write-Output "`u{2705} Checked calculations for the Public IP address - OK."
