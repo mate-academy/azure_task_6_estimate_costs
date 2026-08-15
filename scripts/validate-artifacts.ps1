@@ -1,6 +1,6 @@
 param(
-    [Parameter(Mandatory=$false, ValueFromPipeline=$true)]
-    [bool]$DownloadArtifacts=$true
+    [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
+    [bool]$DownloadArtifacts = $true
 )
 
 
@@ -41,36 +41,38 @@ Write-Output "Validating artifacts"
 
 $data = Import-Excel -StartRow 3 -Path "$tempFolderPath/$spreadsheetName" -WorksheetName $worksheetName
 
-$computeEstimate = $data | Where-Object {$_.'Service Category' -eq 'Compute'}
-if ($computeEstimate) { 
+$computeEstimate = $data | Where-Object { $_.'Service Category' -eq 'Compute' }
+if ($computeEstimate) {
     if ($computeEstimate.'Service Category'.Count -eq 1) { 
         if ($computeEstimate.'Region' -ne 'UK West') { 
             throw "Unable to verify the VM region - please make sure it set to UK West and try again."
-        } 
+        }
 
-        if (-not $computeEstimate.Description.Contains("B1s")) { 
-            throw "Unable to verify VM size in calulations - please make sure that VM size is set to B1s in the calculations and try again. "
-        } 
-        
+        if (-not $computeEstimate.Description.Contains("B2ats")) {
+            throw "Unable to verify VM size in calulations - please make sure that VM size is set to B2ats in the calculations and try again. "
+        }
+
         if (-not $computeEstimate.Description.Contains("Linux")) { 
             throw "Unable to verify VM OS type in calulations - please make sure that VM OS tyoe is set to Linux in the calculations and try again. "
-        } 
+        }
 
-        if (-not $computeEstimate.Description.Contains("1 managed disk – P4")) { 
+        if (-not $computeEstimate.Description.Contains("1 managed disk – P6")) {
             throw "Unable to verify that you included OS disk to the calulations - please check and try again. "
         } 
         
         Write-Output "`u{2705} Checked calculations for the Virtual Machine - OK."
 
-    } else { 
+    }
+    else { 
         throw "Unable to verify estimates for the category 'Compute' - more than one VM found. Please make sure that you have only one VM in your calculations and try again."
     }
 
-} else { 
+}
+else { 
     throw "Unable to find estimates for the category 'Compute'. Please make sure that you added your Virtual Machine to the pricing calculation."
 }
 
-$storageEstimate = $data | Where-Object {$_.'Service Category' -eq 'Storage'}
+$storageEstimate = $data | Where-Object { $_.'Service Category' -eq 'Storage' }
 if ($storageEstimate) { 
     if ($storageEstimate.'Service Category'.Count -eq 1) { 
         if ($storageEstimate.'Region' -ne 'UK West') { 
@@ -87,18 +89,20 @@ if ($storageEstimate) {
 
         Write-Output "`u{2705} Checked calculations for the data disk (mannaged disk) - OK."
 
-    } else { 
+    }
+    else { 
         throw "Unable to verify estimates for the category 'Storage' - more than one item found. Please make sure that you have only one separate storage resource (for your data disk) in your calculations and try again."
     }
 
-} else { 
+}
+else { 
     throw "Unable to find estimates for the category 'Storage. Please make sure that you added your data disk to the pricing calculation."
 }
 
-$networkingEstimate = $data | Where-Object {$_.'Service Category' -eq 'Networking'}
+$networkingEstimate = $data | Where-Object { $_.'Service Category' -eq 'Networking' }
 if ($networkingEstimate) { 
     if ($networkingEstimate.'Service Category'.Count -eq 1) { 
-        
+
         if ($networkingEstimate.'Service type' -ne 'IP Addresses') { 
             throw "Unable to verify Public IP resource - please make sure that you added it to the calculations and try again."
         }
@@ -109,11 +113,13 @@ if ($networkingEstimate) {
 
         Write-Output "`u{2705} Checked calculations for the Public IP address - OK."
 
-    } else { 
+    }
+    else { 
         throw "Unable to verify estimates for the category 'Networking' - more than one item found. Please make sure that you have only one separate storage resource (for your data disk) in your calculations and try again."
     }
 
-} else { 
+}
+else { 
     throw "Unable to find estimates for the category 'Networking. Please make sure that you added your Public IP address to the pricing calculation."
 }
 
