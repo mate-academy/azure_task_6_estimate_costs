@@ -53,6 +53,36 @@ In this task, you need to work with the infrastructure from the [previous tasks]
 
 4. Submit the solution for a review.
 
+## Solution: cost estimate summary
+
+The spreadsheet is committed as `ExportedEstimate.xlsx` (sheet `Your Estimate`); the raw validator output is in `validation-log.txt`.
+
+Assumptions: Pay-as-you-go, USD, 730 hours/month, region **UK West** for every item (as required by `validate-artifacts.ps1`), no reservations, savings plans, or data transfer.
+
+| Category | Resource | Configuration | Monthly cost (USD) |
+|---|---|---|---|
+| Compute | Virtual Machine + OS disk | Linux (Ubuntu), B1s (1 vCPU, 1 GB RAM) x 730 h; 1 managed OS disk – P4 (Premium SSD, 32 GiB) | 15.0019 (VM 8.6140 + OS disk 6.3879) |
+| Storage | Data disk | Managed Disk, Premium SSD, LRS, P6 (64 GiB), 1 disk | 12.3499 |
+| Networking | Public IP address | Standard IPv4, static, 1 x 730 h | 3.6500 |
+| | **Total** | | **31.0018** |
+
+Unit prices come from the public Azure Retail Prices API (`armRegionName = ukwest`): B1s $0.0118/h, P4 $6.3879/month, P6 $12.3499/month, Standard static IPv4 $0.005/h.
+
+Notes:
+
+- The sizes above follow what `validate-artifacts.ps1` expects (UK West, B1s, P4 OS disk, P6 data disk). The VM actually deployed in task 5 is `Standard_B2ats_v2` with a 30 GB StandardSSD OS disk in Spain Central (UK West was not available for that size in this subscription), so this estimate is an approximation of that infrastructure, not an exact copy.
+- The workbook is based on a Pricing Calculator export; the VM size, OS disk, data-transfer and public IP quantities were then corrected in the file itself (costs recalculated from the unit prices above).
+
+Validation output (`scripts/validate-artifacts.ps1`):
+
+```
+Validating artifacts
+✅ Checked calculations for the Virtual Machine - OK.
+✅ Checked calculations for the data disk (mannaged disk) - OK.
+✅ Checked calculations for the Public IP address - OK.
+🥳 Congratulations! All tests passed!
+```
+
 ## How to Complete Tasks in This Module 
 
 Tasks in this module are relying on 2 PowerShell scripts: 
