@@ -54,7 +54,7 @@ if ($computeEstimate) {
         
         if (-not $computeEstimate.Description.Contains("Linux")) { 
             throw "Unable to verify VM OS type in calulations - please make sure that VM OS tyoe is set to Linux in the calculations and try again. "
-        } 
+        }
 
         if (-not $computeEstimate.Description.Contains("1 managed disk – P4")) { 
             throw "Unable to verify that you included OS disk to the calulations - please check and try again. "
